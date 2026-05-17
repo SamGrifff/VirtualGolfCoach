@@ -1,15 +1,27 @@
-Virtual Golf Coach Artefact
+# Virtual Golf Coach Artefact
 
-1. Overview
+## 1. Overview
 
-This artefact is the final software implementation for the CS6P05 project "Virtual Golf Coach using Machine Learning and Artificial Intelligence. The system analyses a user-uploaded golf swing video and provides feedback though a Streamlit dashboard. It uses computer vision and pose estimation to extract body landmark data, a pretrained event detection model to identify key swing events and a statistical scoring method based on z-score normalisation to compare the user's swing against a reference template. The application displays an overall swing score, phase-based analysis, deviation charts, key swing frames, biomechanical metrics and coaching feedback. AI-generated feedback is provided using the Gemini API when available. If the API key is not provided or the API fails the system will fallback to predefined rule feedback.
+This artefact is the final software implementation for the CS6P05 project **"Virtual Golf Coach using Machine Learning and Artificial Intelligence"**.
 
-The artefact was testing using Python 3.10.11
+The system analyses a user-uploaded golf swing video and provides feedback through a Streamlit dashboard. It uses computer vision and pose estimation to extract body landmark data, a pretrained event detection model to identify key swing events, and a statistical scoring method based on z-score normalisation to compare the user's swing against a reference template.
 
-2. Implemented Features
+The application displays:
 
-The following features have been implemented:
+- Overall swing score
+- Phase-based swing analysis
+- Deviation charts
+- Key swing frames
+- Biomechanical metrics
+- Coaching feedback
 
+AI-generated feedback is provided using the Gemini API when available. If the API key is not provided, or if the API fails, the system falls back to predefined rule-based feedback.
+
+This artefact was tested using **Python 3.10.11**.
+
+---
+
+## 2. Implemented Features
 
 The following features have been implemented:
 
@@ -20,72 +32,111 @@ The following features have been implemented:
 - Swing event detection using a pretrained deep learning model
 - Statistical swing scoring using z-score normalisation
 - Phase-based swing analysis
-- Biomechanical metrics such as head stability, spine posture, hip rotation and balance
-- Frame deviation chart for visualising swing differences
+- Biomechanical metrics including head stability, spine posture, hip rotation and balance
+- Frame deviation charts for visualising swing differences
 - Key frame display for important swing moments
 - AI-generated feedback using the Gemini API
 - Rule-based fallback feedback if the Gemini API is unavailable
 
-3. Project Structure
+---
 
+## 3. Project Structure
+
+```text
 Virtual Golf Coach - Artefact/
 │
 ├── App/
+│   ├── dashboard.py
+│   ├── video_pipeline.py
+│   ├── event_detector.py
+│   ├── analyser.py
+│   └── feedback_api.py
+│
 ├── data/
 ├── ml_model/
 ├── notebooks/
 ├── swing_event_model/
 ├── README.md
 ├── requirements.txt
-└── .env.example 
+└── .env.example
+```
 
-Main folders and files:
+### Main Folders and Files
 
-App/: Contains the main streamlit application and the main scripts used to run the system.
+| File / Folder | Description |
+|---|---|
+| `App/` | Contains the main Streamlit application and scripts used to run the system. |
+| `App/dashboard.py` | Main user interface. Allows the user to upload a golf swing video, run the analysis and view the results. |
+| `App/video_pipeline.py` | Handles video processing, frame extraction, pose estimation, cleaning, normalisation and resampling. |
+| `App/event_detector.py` | Loads and runs the pretrained golf swing event detection model. |
+| `App/analyser.py` | Compares processed swing data against the reference template and calculates deviation scores, phase scores and biomechanical metrics. |
+| `App/feedback_api.py` | Generates AI feedback using the Gemini API and provides fallback rule-based feedback if AI feedback is unavailable. |
+| `data/` | Contains sample input data, processed files and saved files needed to test the system. |
+| `ml_model/` | Contains the reference swing template. |
+| `swing_event_model/` | Contains the pretrained event detection model and supporting model files. |
+| `requirements.txt` | Lists the Python dependencies required to run the project. |
+| `.env.example` | Example environment file for setting up the Gemini API key. |
 
-App/dashboard.py: Main user interface. Allows the user to upload a golf swing video, run the analysis and view the results.
+---
 
-App/video_pipeline.py: Handles video processing, frame extraction, pose estimation, cleaning, normalisation and resampling.
+## 4. Installation
 
-App/event_detector.py: Loads and runs the pretrained golf swing event detection model.
+Open a terminal in the root folder of the artefact.
 
-App/analyser.py: Compares processed swing data against the reference template and calculates deviation scores, phase scores and biomechanical metrics.
+### Step 1: Create a virtual environment
 
-App/feedback_api: Generates AI feedback using the Gemini API and provides fallback rule-based feedback if AI feedback is unavailable.
+```bash
+py -3.10 -m venv test_env
+```
 
-data/: Contains sample input data, processed files and the saved reference template needed to test the system.
+### Step 2: Activate the virtual environment
 
-ml_model/: Contains the reference swing template.
+```bash
+test_env\Scripts\activate
+```
 
-swing_event_model/: Contains the pretrained event detection model and supporting model files.
+### Step 3: Upgrade pip
 
-reuirements.txt: Lists the Python dependencies required to run the project. 
+```bash
+python -m pip install --upgrade pip
+```
 
-	4. Installation
+### Step 4: Install the required packages
 
-	Open a terminal in the root folder of the artefact and create a virtual environment using Python 3.10:
+```bash
+pip install -r requirements.txt
+```
 
-		py -3.10 -m venv test_env
+---
 
-	Activate the environment:
+## 5. Gemini API Setup
 
-		test_env\Scripts\activate
+The system can generate AI feedback using the Gemini API.
 
-	Upgrade pip:
+Create a `.env` file in the root folder and add your API key:
 
-		python -m pip install --upgrade pip
+```env
+GEMINI_API_KEY=your_api_key_here
+```
 
-	Install the required packages:
+If no Gemini API key is provided, the system will still run and display predefined rule-based feedback.
 
-		pip install -r requirements.txt
 
-5. Running the application
+---
+
+## 6. Running the Application
 
 After installing the requirements and activating the virtual environment, run:
 
+```bash
 streamlit run App/dashboard.py
+```
 
-6. Testing the application
+This will open the Streamlit dashboard in your browser.
+
+---
+
+## 7. Testing the Application
 
 To test the system:
 
@@ -97,7 +148,30 @@ To test the system:
 6. Check that an overall score is displayed.
 7. Check that phase breakdowns are shown.
 8. Check that the deviation chart is generated.
-9. Check that feedback is displayed.
+9. Check that coaching feedback is displayed.
 
 If no Gemini API key is provided, the system should still display predefined rule-based feedback.
 
+---
+
+## 8. Requirements
+
+The project uses the following main libraries:
+
+- Streamlit
+- OpenCV
+- MediaPipe
+- NumPy
+- Pandas
+- scikit-learn
+- Matplotlib
+- PyTorch
+- Torchvision
+- python-dotenv
+- google-genai
+
+Install all dependencies using:
+
+```bash
+pip install -r requirements.txt
+```
